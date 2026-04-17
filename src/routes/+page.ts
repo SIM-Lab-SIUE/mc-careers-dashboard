@@ -4,10 +4,28 @@ import { loadCsv }    from '$lib/utils/loadCsv';
 import { base }       from '$app/paths';
 
 export const load: PageLoad = async ({ fetch }) => {
-  const occupations           = await loadCsv(`${base}/data/occupations.csv`,          fetch);
-  const occupationTechnologies = await loadCsv(`${base}/data/occupation_technologies.csv`, fetch);
-  const technologies           = await loadCsv(`${base}/data/technologies.csv`,          fetch);
-  const stateWages             = await loadCsv(`${base}/data/state_wages.csv`,          fetch);
+  const [
+    occupations,
+    occupationTechnologies,
+    technologies,
+    stateWages,
+    courses,
+    courseJobRatings
+  ] = await Promise.all([
+    loadCsv(`${base}/data/occupations.csv`, fetch),
+    loadCsv(`${base}/data/occupation_technologies.csv`, fetch),
+    loadCsv(`${base}/data/technologies.csv`, fetch),
+    loadCsv(`${base}/data/state_wages.csv`, fetch),
+    loadCsv(`${base}/data/courses.csv`, fetch),
+    loadCsv(`${base}/data/course_job_ratings.csv`, fetch)
+  ]);
 
-  return { occupations, occupationTechnologies, technologies, stateWages };
+  return {
+    occupations,
+    occupationTechnologies,
+    technologies,
+    stateWages,
+    courses,
+    courseJobRatings
+  };
 };
